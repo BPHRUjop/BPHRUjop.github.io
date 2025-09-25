@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>แบบสอบถามประเมินความเสี่ยงต่อความดันโลหิตสูง</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { box-sizing: border-box; }
+    .progress-bar { transition: width 0.3s ease; }
+    .risk-indicator { transition: all 0.3s ease; }
+    .font-thai { font-family: system-ui, -apple-system, "Sarabun", "Noto Sans Thai", sans-serif; }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen font-thai">
+  <div class="container mx-auto px-4 py-8 max-w-4xl">
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mb-4">
+        <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+        </svg>
+      </div>
+      <h1 class="text-3xl font-bold text-gray-800 mb-2">แบบประเมินความเสี่ยงต่อความดันโลหิตสูง</h1>
+      <p class="text-gray-600">ตอบคำถามเพื่อประเมินพฤติกรรมและปัจจัยเสี่ยงของคุณ</p>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="mb-8">
+      <div class="flex justify-between text-sm text-gray-600 mb-2">
+        <span>ความคืบหน้า</span>
+        <span id="progress-text">0/15</span>
+      </div>
+      <div class="w-full bg-gray-200 rounded-full h-2">
+        <div id="progress-bar" class="progress-bar bg-blue-600 h-2 rounded-full" style="width:0%"></div>
+      </div>
+    </div>
+
+    <!-- Survey Form -->
+    <form id="surveyForm" class="space-y-6">
+      <!-- ใช้ name เฉพาะเพื่อให้คำนวณกลุ่มคำถามได้ถูกต้อง -->
+      <!-- 1. Age -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">1. อายุของคุณ</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="age" value="1" class="mr-3"><span>ต่ำกว่า 30 ปี</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="age" value="2" class="mr-3"><span>30-39 ปี</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="age" value="3" class="mr-3"><span>40-59 ปี</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="age" value="4" class="mr-3"><span>60 ปีขึ้นไป</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- 2. Family History -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">2. ประวัติครอบครัวเป็นความดันโลหิตสูง</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="family_history" value="1" class="mr-3"><span>ไม่มี</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="family_history" value="2" class="mr-3"><span>มีบางคน</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="family_history" value="3" class="mr-3"><span>มีหลายคน</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- 3. Exercise -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">3. การออกกำลังกายของคุณ</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="exercise" value="1" class="mr-3"><span>ออกกำลังกายสม่ำเสมอ (3-5 ครั้ง/สัปดาห์)</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="exercise" value="2" class="mr-3"><span>ออกกำลังกายบางครั้ง (1-2 ครั้ง/สัปดาห์)</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="exercise" value="3" class="mr-3"><span>ไม่ค่อยออกกำลังกาย</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="exercise" value="4" class="mr-3"><span>ไม่ออกกำลังกายเลย</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- 4. Salt Intake -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">4. การบริโภคอาหารเค็ม</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="salt" value="1" class="mr-3"><span>หลีกเลี่ยงอาหารเค็ม</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="salt" value="2" class="mr-3"><span>กินอาหารเค็มปานกลาง</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="salt" value="3" class="mr-3"><span>ชอบอาหารเค็ม</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="salt" value="4" class="mr-3"><span>กินอาหารเค็มมาก</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- 5. Smoking -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">5. การสูบบุหรี่</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="smoking" value="1" class="mr-3"><span>ไม่สูบบุหรี่</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="smoking" value="3" class="mr-3"><span>เลิกแล้ว</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="smoking" value="4" class="mr-3"><span>สูบบุหรี่</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- 6. Alcohol -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">6. การดื่มแอลกอฮอล์</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="alcohol" value="1" class="mr-3"><span>ไม่ดื่ม</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="alcohol" value="2" class="mr-3"><span>ดื่มเป็นครั้งคราว</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="alcohol" value="3" class="mr-3"><span>ดื่มสม่ำเสมอ</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="alcohol" value="4" class="mr-3"><span>ดื่มมาก</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- 7. Weight -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">7. น้ำหนักตัวของคุณ</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="weight" value="1" class="mr-3"><span>BMI 18.5-24.9 (ปกติ)</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="weight" value="2" class="mr-3"><span>BMI 25-29.9 (น้ำหนักเกิน)</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="weight" value="3" class="mr-3"><span>BMI 30-34.9 (อ้วน)</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="weight" value="4" class="mr-3"><span>BMI ≥35 (อ้วนมาก)</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- 8. Stress -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">8. ระดับความเครียด</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="stress" value="1" class="mr-3"><span>เครียดน้อย</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="stress" value="2" class="mr-3"><span>เครียดปานกลาง</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="stress" value="3" class="mr-3"><span>เครียดมาก</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="stress" value="4" class="mr-3"><span>เครียดมากที่สุด</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- 9. Sleep -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">9. คุณภาพการนอนหลับ</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="sleep" value="1" class="mr-3"><span>ดี 7-8 ชม.</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="sleep" value="2" class="mr-3"><span>พอใช้ 6-7 ชม.</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="sleep" value="3" class="mr-3"><span>ไม่พอ 4-6 ชม.</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="sleep" value="4" class="mr-3"><span>น้อยมาก &lt;4 ชม.</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- 10. Vegetables -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">10. การบริโภคผักและผลไม้</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="vegetables" value="1" class="mr-3"><span>≥ 5 ส่วน/วัน</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="vegetables" value="2" class="mr-3"><span>3–4 ส่วน/วัน</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="vegetables" value="3" class="mr-3"><span>1–2 ส่วน/วัน</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="vegetables" value="4" class="mr-3"><span>แทบไม่กิน</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- 11. Fast Food -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">11. อาหารจานด่วน/อาหารแปรรูป</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="fastfood" value="1" class="mr-3"><span>แทบไม่กิน</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="fastfood" value="2" class="mr-3"><span>เป็นครั้งคราว</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="fastfood" value="3" class="mr-3"><span>บ่อย 2–3 ครั้ง/สัปดาห์</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="fastfood" value="4" class="mr-3"><span>เกือบทุกวัน</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- 12. Water Intake -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">12. การดื่มน้ำต่อวัน</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="water" value="1" class="mr-3"><span>≥ 8 แก้ว</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="water" value="2" class="mr-3"><span>6–7 แก้ว</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="water" value="3" class="mr-3"><span>4–5 แก้ว</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="water" value="4" class="mr-3"><span>&lt; 4 แก้ว</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- 13. Medical Checkup -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">13. การตรวจสุขภาพประจำปี</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="checkup" value="1" class="mr-3"><span>ตรวจสม่ำเสมอ</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="checkup" value="2" class="mr-3"><span>ตรวจบางครั้ง</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="checkup" value="3" class="mr-3"><span>ไม่ค่อยตรวจ</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- 14. Diabetes -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">14. ประวัติเบาหวาน</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="diabetes" value="1" class="mr-3"><span>ไม่มี</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="diabetes" value="2" class="mr-3"><span>เบาหวานขั้นต้น</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="diabetes" value="3" class="mr-3"><span>เป็นเบาหวาน</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- 15. Cholesterol -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">15. ระดับคอเลสเตอรอล</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="cholesterol" value="1" class="mr-3"><span>ปกติ</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="cholesterol" value="2" class="mr-3"><span>สูงเล็กน้อย</span>
+          </label>
+          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-blue-50">
+            <input type="radio" name="cholesterol" value="3" class="mr-3"><span>สูงมาก</span>
+          </label>
+        </div>
+      </div>
+    </form>
+
+    <!-- Action buttons -->
+    <div class="flex items-center gap-3 mt-6">
+      <button id="resetBtn" class="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-800">รีเซ็ตแบบประเมิน</button>
+    </div>
+
+    <!-- Results Section -->
+    <div id="results" class="mt-8 bg-white rounded-lg shadow-md p-6 hidden">
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">ผลการประเมิน</h2>
+
+      <div class="flex items-center mb-6">
+        <div class="flex-1">
+          <div class="flex justify-between text-sm text-gray-600 mb-2">
+            <span>คะแนนความเสี่ยง</span>
+            <span id="score-text">0/0</span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-4">
+            <div id="risk-bar" class="risk-indicator h-4 rounded-full" style="width:0%"></div>
+          </div>
+        </div>
+        <div id="risk-level" class="ml-6 px-4 py-2 rounded-lg font-semibold text-white">ไม่มีข้อมูล</div>
+      </div>
+
+      <div class="text-sm text-gray-500 mb-4" id="score-note"></div>
+
+      <div id="recommendations" class="space-y-4"></div>
+
+      <div class="mt-6 p-4 bg-yellow-50 border-l-4 border-yellow-400 rounded">
+        <p class="text-sm text-yellow-800">
+          <strong>หมายเหตุ:</strong> ผลการประเมินนี้เป็นเพียงการคัดกรองเบื้องต้นเท่านั้น ควรปรึกษาแพทย์เพื่อการตรวจสอบและวินิจฉัยที่แม่นยำ
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('surveyForm');
+    const progressBar = document.getElementById('progress-bar');
+    const progressText = document.getElementById('progress-text');
+    const results = document.getElementById('results');
+    const riskBar = document.getElementById('risk-bar');
+    const riskLevel = document.getElementById('risk-level');
+    const scoreText = document.getElementById('score-text');
+    const scoreNote = document.getElementById('score-note');
+    const recommendations = document.getElementById('recommendations');
+    const resetBtn = document.getElementById('resetBtn');
+
+    const STORAGE_KEY = 'bp_risk_answers_v1';
+
+    // ดึงชื่อกลุ่มคำถามจาก name ของ input[type=radio]
+    function getQuestionNames() {
+      const names = new Set();
+      form.querySelectorAll('input[type="radio"]').forEach(i => names.add(i.name));
+      return Array.from(names);
+    }
+
+    function getAnsweredCount() {
+      const formData = new FormData(form);
+      return getQuestionNames().reduce((acc, name) => acc + (formData.has(name) ? 1 : 0), 0);
+    }
+
+    function getMaxScore() {
+      // คิดคะแนนเต็มจากค่าสูงสุดของแต่ละคำถาม (อ่านจาก value จริง)
+      const names = getQuestionNames();
+      return names.reduce((sum, name) => {
+        const maxForName = Array.from(form.querySelectorAll(`input[name="${name}"]`))
+          .map(r => parseInt(r.value, 10))
+          .reduce((a, b) => Math.max(a, b), 0);
+        return sum + maxForName;
+      }, 0);
+    }
+
+    function updateProgress() {
+      const totalQuestions = getQuestionNames().length;
+      const answered = getAnsweredCount();
+      const progress = (answered / totalQuestions) * 100;
+      progressBar.style.width = progress + '%';
+      progressText.textContent = `${answered}/${totalQuestions}`;
+      if (answered === totalQuestions) {
+        results.classList.remove('hidden');
+        results.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    function calculateRisk() {
+      const totalQuestions = getQuestionNames().length;
+      if (getAnsweredCount() < totalQuestions) return;
+
+      const formData = new FormData(form);
+      const names = getQuestionNames();
+
+      let totalScore = 0;
+      names.forEach(name => {
+        const val = parseInt(formData.get(name) || '0', 10);
+        totalScore += val;
+      });
+
+      const maxScore = getMaxScore();
+      const pct = maxScore > 0 ? (totalScore / maxScore) * 100 : 0;
+
+      // อัปเดตแสดงผลคะแนน
+      scoreText.textContent = `${totalScore}/${maxScore}`;
+      riskBar.style.width = pct.toFixed(1) + '%';
+
+      // ตัดเกรดความเสี่ยงด้วยเปอร์เซ็นต์ (สเกล-อิสระ)
+      let riskText, barClass, tagClass;
+      if (pct <= 35) {
+        riskText = 'ความเสี่ยงต่ำ';
+        barClass = 'bg-green-500';
+        tagClass = 'bg-green-600';
+      } else if (pct <= 60) {
+        riskText = 'ความเสี่ยงปานกลาง';
+        barClass = 'bg-yellow-500';
+        tagClass = 'bg-yellow-600';
+      } else if (pct <= 80) {
+        riskText = 'ความเสี่ยงสูง';
+        barClass = 'bg-orange-500';
+        tagClass = 'bg-orange-600';
+      } else {
+        riskText = 'ความเสี่ยงสูงมาก';
+        barClass = 'bg-red-500';
+        tagClass = 'bg-red-600';
+      }
+
+      riskLevel.textContent = riskText;
+      riskLevel.className = `ml-6 px-4 py-2 rounded-lg font-semibold text-white ${tagClass}`;
+      riskBar.className = `risk-indicator h-4 rounded-full ${barClass}`;
+
+      scoreNote.textContent = `คิดจากสัดส่วนคะแนน (${pct.toFixed(1)}% ของคะแนนเต็ม) เพื่อให้ยุติธรรมแม้เพิ่ม/ลดจำนวนคำถามในอนาคต`;
+
+      generateRecommendations(formData, totalScore, pct);
+    }
+
+    function pill(icon, title, text) {
+      return `
+        <div class="flex items-start p-4 bg-blue-50 rounded-lg">
+          <span class="text-2xl mr-4">${icon}</span>
+          <div>
+            <h4 class="font-semibold text-gray-800 mb-1">${title}</h4>
+            <p class="text-gray-600 text-sm">${text}</p>
+          </div>
+        </div>
+      `;
+    }
+
+    function generateRecommendations(formData, totalScore, pct) {
+      const recs = [];
+
+      // การออกกำลังกาย
+      const exercise = parseInt(formData.get('exercise') || '0', 10);
+      if (exercise >= 3) {
+        recs.push(pill('🏃‍♂️', 'เพิ่มการออกกำลังกาย', 'อย่างน้อย 150 นาที/สัปดาห์ แบบแอโรบิกระดับปานกลาง + เสริมแรงกล้ามเนื้อ 2 วัน/สัปดาห์'));
+      }
+
+      // เกลือ/โซเดียม
+      const salt = parseInt(formData.get('salt') || '0', 10);
+      if (salt >= 3) {
+        recs.push(pill('🧂', 'ลดโซเดียม', 'เลี่ยงอาหารแปรรูป/ชูรสจัด เป้าหมายโซเดียม < 2,000 มก./วัน'));
+      }
+
+      // ผักผลไม้
+      const vegetables = parseInt(formData.get('vegetables') || '0', 10);
+      if (vegetables >= 3) {
+        recs.push(pill('🥬', 'เพิ่มผักผลไม้', 'อย่างน้อย 5 ส่วน/วัน เลือกหลากสี และเน้นธัญพืชไม่ขัดสี'));
+      }
+
+      // บุหรี่
+      const smoking = parseInt(formData.get('smoking') || '0', 10);
+      if (smoking === 4) {
+        recs.push(pill('🚭', 'เลิกบุหรี่', 'ขอรับคำปรึกษาเลิกบุหรี่/นิโคตินทดแทน ลดความเสี่ยงโรคหัวใจและหลอดเลือด'));
+      }
+
+      // ความเครียด
+      const stress = parseInt(formData.get('stress') || '0', 10);
+      if (stress >= 3) {
+        recs.push(pill('🧘‍♀️', 'จัดการความเครียด', 'ฝึกหายใจลึก โยคะ สมาธิ หรือทำกิจกรรมผ่อนคลายที่ชอบทุกวัน'));
+      }
+
+      // การนอน
+      const sleep = parseInt(formData.get('sleep') || '0', 10);
+      if (sleep >= 3) {
+        recs.push(pill('😴', 'ปรับการนอน', 'ตั้งเวลาเข้านอนสม่ำเสมอ งดคาเฟอีนหลังบ่ายสอง และงดจอ 1 ชม.ก่อนนอน'));
+      }
+
+      // น้ำหนัก
+      const weight = parseInt(formData.get('weight') || '0', 10);
+      if (weight >= 3) {
+        recs.push(pill('⚖️', 'ควบคุมน้ำหนัก', 'ตั้งเป้าลด 5–10% ของน้ำหนักตัวใน 3–6 เดือน ด้วยคุมอาหาร + เพิ่มกิจกรรม'));
+      }
+
+      // ตรวจสุขภาพ
+      if (pct >= 60) {
+        recs.push(pill('👨‍⚕️', 'ติดตามแพทย์', 'พิจารณาตรวจสุขภาพ/ความดันโลหิต/ไขมัน/น้ำตาล และปรับแผนรายบุคคล'));
+      }
+
+      recommendations.innerHTML = recs.join('') || '<p class="text-gray-600">พฤติกรรมโดยรวมค่อนข้างดี รักษานิสัยสุขภาพต่อเนื่องนะครับ/ค่ะ</p>';
+    }
+
+    // บันทึก/กู้คืนคำตอบใน localStorage
+    function saveAnswers() {
+      const formData = new FormData(form);
+      const obj = {};
+      getQuestionNames().forEach(name => { if (formData.get(name)) obj[name] = formData.get(name); });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(obj));
+    }
+
+    function loadAnswers() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      try {
+        const obj = JSON.parse(raw);
+        Object.entries(obj).forEach(([name, val]) => {
+          const el = form.querySelector(`input[name="${name}"][value="${val}"]`);
+          if (el) el.checked = true;
+        });
+      } catch (e) {}
+    }
+
+    function resetForm() {
+      form.reset();
+      localStorage.removeItem(STORAGE_KEY);
+      updateProgress();
+      results.classList.add('hidden');
+      riskBar.style.width = '0%';
+      riskLevel.textContent = 'ไม่มีข้อมูล';
+      riskLevel.className = 'ml-6 px-4 py-2 rounded-lg font-semibold text-white bg-gray-400';
+      recommendations.innerHTML = '';
+      scoreText.textContent = '0/0';
+      scoreNote.textContent = '';
+    }
+
+    // Events
+    form.addEventListener('change', () => {
+      updateProgress();
+      calculateRisk();
+      saveAnswers();
+    });
+
+    resetBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      resetForm();
+    });
+
+    // Init
+    loadAnswers();
+    updateProgress();
+    calculateRisk();
+  </script>
+</body>
+</html>
